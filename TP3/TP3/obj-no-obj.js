@@ -117,7 +117,18 @@ s('poke'); // Message not understood
 // 2. 'size' returns the number of elements in the queue
 // **Complete** the definition.
 function queue() {
-  /* ... */
+  let queue = [];
+  return function(msg, item){
+    if (msg === 'enqueue' && !!item) {
+      queue.push(item);
+    } else if (msg === 'dequeue') {
+      return queue.shift();
+    } else if (msg === 'size') {
+      return queue.length;
+    } else {
+      return "Unknown message";
+    }
+  }
 }
 
 var q = queue();
@@ -133,7 +144,7 @@ q('dequeue'); // 2
 // an argument to this function understands the message 'size', and
 // returns a meaningful value.  **Complete** the definition.
 function collectionSize(collection) {
-  /* ... */
+  return collection('size');
 }
 
 collectionSize(q);
@@ -155,7 +166,17 @@ collectionSize(s);
 //    and only if both points have the same coordinates
 // **Write** the `point` function.
 function point(x) {
-  /* ... */
+  return function(msg, item){
+    if (msg === 'x') {
+      return x;
+    } else if (msg === 'setX') {
+      x = item;
+    } else if (msg === 'equals') {
+      return x === item('x');
+    } else {
+      return "Unknown message";
+    }
+  }
 }
 
 var p1 = point(0);
